@@ -12,9 +12,8 @@
     "nvm": "nvm use lts"
   },
   "dependencies": {
-    "@react-native-vector-icons/common": "^0.0.1-alpha.6",
-    "@react-native-vector-icons/feather": "^4.29.1-alpha.9",
-    "@react-native-vector-icons/fontawesome6": "^6.5.2-alpha.12",
+    "@react-native-vector-icons/common": "^0.0.1-alpha.10",
+    "@react-native-vector-icons/fontawesome6": "^6.5.2-alpha.17",
     "react": "18.2.0",
     "react-native": "0.74.1",
     "styled-components": "^6.1.11"
@@ -38,6 +37,5 @@
   },
   "engines": {
     "node": ">=18"
-  },
-  "packageManager": "yarn@3.6.4"
+  }
 }

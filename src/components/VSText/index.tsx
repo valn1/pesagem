@@ -1,5 +1,5 @@
 import React from 'react';
-import { VSTextProps } from '../../entities/componentEntities/VSText/VSTextInterfaces';
+import { VSTextProps } from '../../entities/componentEntities/VSTextInterfaces';
 import { CustomText } from './styles';
 import { replacePlaceholders } from './helper';
 

@@ -6,8 +6,11 @@ export const StyledButton = styled.TouchableOpacity<VSButtonProps>`
     border-radius: 4px;
     font-size: 16px;
     margin: 5px auto;
-    ${({ bordered }) => bordered ? 'border: 1px solid #6c757d;' : ''})}
-    ${({ quiet }) => quiet ? 'background-color: transparent;' : ''})}
-    ${({ filled }) => filled ? 'background-color: #007bff;' : ''})}
-    ${({ disabled }) => disabled ? 'opacity: 0.5;' : ''})}
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    ${({ bordered, theme }) => bordered ? `border: 1px solid ${theme.colors.text};` : ''}
+    ${({ filled }) => filled ? 'background-color: #007bff;' : ''}
+    ${({ quiet }) => quiet ? 'background-color: transparent;' : ''}
+    ${({ disabled }) => disabled ? 'opacity: 0.5;' : ''}
 `;
