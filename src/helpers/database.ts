@@ -2,45 +2,46 @@ import { QuickSQLiteConnection, open, QueryResult } from 'react-native-quick-sql
 import type { Column, TableColumn, TableColumns, TableName, Tables } from '../entities/commons/database'
 import { DATABASE } from '../constants/database';
 
-class Database {
+export class Database {
 
     private db: QuickSQLiteConnection;
     private Tables: Tables;
+    private tableName: string = '';
 
     constructor() {
         this.db = {} as QuickSQLiteConnection;
         this.Tables = {} as Tables;
+        this.tableName = 'pesagem.db';
     }
 
     init() {
-        this.db = open({ name: 'pesagem.db' });
+        this.db = open({ name: this.tableName });
         this.Tables = DATABASE as Tables;
         this.createTables();
     }
 
     private async createTables() {
-        Object.keys(this.Tables).forEach(async key => {
-            const tableName = key as TableName;
-            const table = this.Tables[tableName];
-            const columns: Column[] = [];
-
-            Object.keys(table).forEach(key => {
-                const column = key as keyof TableColumns<typeof tableName>;
-                columns.push({ name: column, type: table[column] });
-            })
+        Object.entries(this.Tables).forEach(async ([tableName, table]) => {
+            const columns: Column[] = Object.entries(table).map(([name, type]) => ({ name: name, type: type as string }))
             await this.createTable(tableName as TableName, columns);
         })
+        const tables = await this.getTables();
+        //todo: make backups for the columns that were removed
     }
 
-    private async checkTableExists(tableName: TableName) {
+    async checkTableExists(tableName: TableName) {
         const result = await this.db.executeAsync(`SELECT name FROM sqlite_master WHERE type='table' AND name='${tableName}';`);
         return !!result.rows?.length;
     }
 
-    private async checkColumnExists(tableName: TableName, columnName: string) {
+    async getColumns(tableName: TableName) {
         const result = await this.db.executeAsync(`PRAGMA table_info(${tableName});`);
-        const columns = result.rows?._array.map((row: any) => row.name);
-        return columns?.includes(columnName);
+        return result.rows?._array.map((row: any) => row.name);
+    }
+
+    async getTables() {
+        const result = await this.db.executeAsync(`SELECT name FROM sqlite_master WHERE type='table';`);
+        return result.rows?._array.map((row: any) => row.name) || [];
     }
 
     /**
@@ -51,17 +52,15 @@ class Database {
      */
     async createTable(tableName: TableName, columns: Column[]) {
         if (await this.checkTableExists(tableName)) {
-            const newColumns: Column[] = [];
-            await Promise.all(columns.map(async column => {
-                if (!await this.checkColumnExists(tableName, column.name)) newColumns.push(column);
-            }));
-            if (newColumns.length) {
-                const columnsString = newColumns.map(column => `${column.name} ${column.type}`).join(', ')
-                console.log(`Adicionando colunas ${columnsString} na tabela ${tableName}.`);
-                return await this.db.executeAsync(`ALTER TABLE ${tableName} ADD COLUMN ${columnsString};`)
-            } else {
+            const tableColumns = await this.getColumns(tableName);
+            const newColumns: Column[] = columns.filter(column => !tableColumns?.includes(column.name));
+            const removedColumns: Column[] = tableColumns?.filter(column => !columns.find(col => col.name === column)) as Column[];
+
+            if (!removedColumns.length && !newColumns.length) {
                 console.log(`Tabela ${tableName} já existe.`);
-                return { rowsAffected: 0 } as QueryResult;
+            } else {
+                if (newColumns.length) await this.db.executeAsync(`ALTER TABLE ${tableName} ADD COLUMN ${newColumns.map(c => `${c.name} ${c.type}`).join(', ')};`);
+                if (removedColumns.length) await this.db.executeAsync(`ALTER TABLE ${tableName} DROP COLUMN ${removedColumns.map(col => col.name).join(', ')};`);
             }
         }
         const columnsString = columns.map(column => `${column.name} ${column.type}`).join(', ')
