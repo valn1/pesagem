@@ -1,5 +1,5 @@
 import { TouchableOpacityProps } from "react-native";
-import { VSIconProps, VectorIconProps } from "../VSIcon/VSIconInterface";
+import { VSIconProps, VectorIconProps } from "./VSIconInterfaces";
 
 export type VSButtonProps = TouchableOpacityProps & {
     title?: string;

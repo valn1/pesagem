@@ -1,6 +1,6 @@
-import brandGM from '../../../../node_modules/@react-native-vector-icons/fontawesome6/glyphmaps/FontAwesome6_brand.json';
-import regularGM from '../../../../node_modules/@react-native-vector-icons/fontawesome6/glyphmaps/FontAwesome6_regular.json';
-import solidGM from '../../../../node_modules/@react-native-vector-icons/fontawesome6/glyphmaps/FontAwesome6_solid.json';
+import brandGM from '../../../node_modules/@react-native-vector-icons/fontawesome6/glyphmaps/FontAwesome6_brand.json';
+import regularGM from '../../../node_modules/@react-native-vector-icons/fontawesome6/glyphmaps/FontAwesome6_regular.json';
+import solidGM from '../../../node_modules/@react-native-vector-icons/fontawesome6/glyphmaps/FontAwesome6_solid.json';
 import { type IconProps } from '@react-native-vector-icons/common';
 
 

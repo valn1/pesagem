@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { VSButtonProps } from "../../entities/componentEntities/VSButton/VSButtonInterfaces";
+import { VSButtonProps } from "../../entities/componentEntities/VSButtonInterfaces";
 
 export const StyledButton = styled.TouchableOpacity<VSButtonProps>`
     padding: 10px 20px;

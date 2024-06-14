@@ -6,6 +6,14 @@ export const StyledView = styled.SafeAreaView`
     background-color: ${({ theme }) => theme.colors.background};
 `;
 
+export const StyledContent = styled.ScrollView.attrs({
+    contentContainerStyle: {
+        flexGrow: 1,
+        justifyContent: 'center'
+    }
+})`
+`;
+
 export const StyledTitle = styled(VSText).attrs({
     bold: true
 })`

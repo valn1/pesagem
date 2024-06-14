@@ -5,7 +5,8 @@ export const dark: Theme = {
         primary: '#007bff',
         secondary: '#6c757d',
         background: '#343a40',
-        text: '#f8f9fa'
+        text: '#f8f9fa',
+        card: '#495057',
     },
     themeName: 'dark'
 } 

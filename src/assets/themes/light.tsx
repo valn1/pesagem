@@ -5,7 +5,8 @@ export const light: Theme = {
         primary: '#007bff',
         secondary: '#6c757d',
         background: '#f8f9fa',
-        text: '#212529'
+        text: '#212529',
+        card: '#d9d8db',
     },
     themeName: 'light'
 }

@@ -1,11 +1,13 @@
 import { VSScreenProps } from "../../entities/componentEntities/VSScreenInterfaces";
-import { StyledTitle, StyledView } from "./styles";
+import { StyledContent, StyledTitle, StyledView } from "./styles";
 
 export const VSScreen: React.FC<VSScreenProps> = ({ children, name }) => {
     return (
         <StyledView>
             <StyledTitle>{name}</StyledTitle>
-            {children}
+            <StyledContent>
+                {children}
+            </StyledContent>
         </StyledView>
     );
 }
