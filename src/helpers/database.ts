@@ -1,23 +1,32 @@
 import { QuickSQLiteConnection, open, QueryResult } from 'react-native-quick-sqlite'
 import type { Column, TableColumn, TableColumns, TableName, Tables } from '../entities/commons/database'
 import { DATABASE } from '../constants/database';
+import { getReadableVersion } from 'react-native-device-info';
+import { makeSnapshot } from './fileSystem';
 
 export class Database {
 
     private db: QuickSQLiteConnection;
     private Tables: Tables;
-    private tableName: string = '';
 
-    constructor() {
-        this.db = {} as QuickSQLiteConnection;
-        this.Tables = {} as Tables;
-        this.tableName = 'pesagem.db';
+    constructor(tableName = 'pesagem', database = DATABASE) {
+        this.db = open({ name: tableName + '.db' });
+        this.Tables = database as Tables;
     }
 
     init() {
-        this.db = open({ name: this.tableName });
-        this.Tables = DATABASE as Tables;
-        this.createTables();
+        this.registerSnapshot()
+            .then(() => this.createTables()).catch(console.error);
+    }
+
+    private async registerSnapshot() {
+        const tables = JSON.stringify(this.Tables);
+        const result = await this.selectTop('TABLES_HISTORY', ['TABLES'], 1, 'ID != 0 ORDER BY ID DESC');
+        const oldTables: string = result?.rows?._array[0].TABLES;
+        if (oldTables?.length !== tables.length || oldTables !== tables) {
+            await this.insert('TABLES_HISTORY', { VERSION: getReadableVersion(), TABLES: tables } as TableColumns<'TABLES_HISTORY'>);
+            makeSnapshot();
+        }
     }
 
     private async createTables() {
@@ -25,22 +34,20 @@ export class Database {
             const columns: Column[] = Object.entries(table).map(([name, type]) => ({ name: name, type: type as string }))
             await this.createTable(tableName as TableName, columns);
         })
-        const tables = await this.getTables();
-        //todo: make backups for the columns that were removed
     }
 
     async checkTableExists(tableName: TableName) {
-        const result = await this.db.executeAsync(`SELECT name FROM sqlite_master WHERE type='table' AND name='${tableName}';`);
+        const result = await this.execute(`SELECT name FROM sqlite_master WHERE type='table' AND name='${tableName}';`);
         return !!result.rows?.length;
     }
 
     async getColumns(tableName: TableName) {
-        const result = await this.db.executeAsync(`PRAGMA table_info(${tableName});`);
+        const result = await this.execute(`PRAGMA table_info(${tableName});`);
         return result.rows?._array.map((row: any) => row.name);
     }
 
     async getTables() {
-        const result = await this.db.executeAsync(`SELECT name FROM sqlite_master WHERE type='table';`);
+        const result = await this.execute(`SELECT name FROM sqlite_master WHERE type='table';`);
         return result.rows?._array.map((row: any) => row.name) || [];
     }
 
@@ -57,14 +64,14 @@ export class Database {
             const removedColumns: Column[] = tableColumns?.filter(column => !columns.find(col => col.name === column)) as Column[];
 
             if (!removedColumns.length && !newColumns.length) {
-                console.log(`Tabela ${tableName} já existe.`);
+                return { rowsAffected: 0 } as QueryResult;
             } else {
-                if (newColumns.length) await this.db.executeAsync(`ALTER TABLE ${tableName} ADD COLUMN ${newColumns.map(c => `${c.name} ${c.type}`).join(', ')};`);
-                if (removedColumns.length) await this.db.executeAsync(`ALTER TABLE ${tableName} DROP COLUMN ${removedColumns.map(col => col.name).join(', ')};`);
+                if (newColumns.length) await this.execute(`ALTER TABLE ${tableName} ADD COLUMN ${newColumns.map(c => `${c.name} ${c.type}`).join(', ')};`);
+                if (removedColumns.length) await this.execute(`ALTER TABLE ${tableName} DROP COLUMN ${removedColumns.map(col => col.name).join(', ')};`);
             }
         }
         const columnsString = columns.map(column => `${column.name} ${column.type}`).join(', ')
-        return await this.db.executeAsync(`CREATE TABLE IF NOT EXISTS ${tableName} (${columnsString});`)
+        return await this.execute(`CREATE TABLE IF NOT EXISTS ${tableName} (${columnsString});`)
     }
 
 
@@ -78,7 +85,7 @@ export class Database {
         const columns = Object.keys(values).join(', ');
         const valuesString = columns.replace(/[^,]+/g, '?');
         const valuesArray: any[] = Object.keys(values).map(key => values[key as keyof TableColumns<TableName>]);
-        return await this.db.executeAsync(`INSERT INTO ${tableName} (${columns}) VALUES (${valuesString});`, valuesArray);
+        return await this.execute(`INSERT INTO ${tableName} (${columns}) VALUES (${valuesString});`, valuesArray);
     }
 
     /**
@@ -95,9 +102,9 @@ export class Database {
      * ```
      * @returns retorna um {@link QueryResult}.
      */
-    async select(tableName: TableName, columns: TableColumn<TableName>[] | '*', where?: string, whereArgs?: any[]) {
+    async select(tableName: TableName, columns: string[] | '*', where?: string, whereArgs?: any[]) {
         const columnsString = columns != '*' ? columns.join(', ') : '*';
-        return await this.db.executeAsync(`SELECT ${columnsString} FROM ${tableName} ${where ? `WHERE ${where}` : ''};`, whereArgs);
+        return await this.execute(`SELECT ${columnsString} FROM ${tableName} ${where ? `WHERE ${where}` : ''};`, whereArgs);
     }
 
     /**
@@ -116,9 +123,9 @@ export class Database {
      * ```
      * @returns retorna um {@link QueryResult}.
      */
-    async update(tableName: TableName, columns: TableColumn<TableName>[], values: any[], where: string, whereArgs: any[]) {
+    async update(tableName: TableName, columns: string[], values: any[], where: string, whereArgs: any[]) {
         const cols = columns.map(col => `${col} = ?`).join(', ');
-        return await this.db.executeAsync(`UPDATE ${tableName} SET ${cols} WHERE ${where};`, [...values, ...whereArgs]);
+        return await this.execute(`UPDATE ${tableName} SET ${cols} WHERE ${where};`, [...values, ...whereArgs]);
     }
 
     /**
@@ -135,7 +142,7 @@ export class Database {
      * @returns retorna um {@link QueryResult}.
      */
     async delete(tableName: TableName, where: string, whereArgs: any[]) {
-        return await this.db.executeAsync(`DELETE FROM ${tableName} WHERE ${where};`, whereArgs);
+        return await this.execute(`DELETE FROM ${tableName} WHERE ${where};`, whereArgs);
     }
 
     /**
@@ -144,11 +151,27 @@ export class Database {
      * @returns retorna um {@link QueryResult}.
      */
     async dropTable(tableName: TableName) {
-        return await this.db.executeAsync(`DROP TABLE ${tableName};`);
+        return await this.execute(`DROP TABLE ${tableName};`);
     }
 
-    async execute(query: string, args?: any[]) {
-        return await this.db.executeAsync(query, args);
+    async selectTop(tableName: TableName, columns: string[] | '*', top: number, where?: string, whereArgs?: any[]) {
+        try {
+            const columnsString = columns != '*' ? columns.join(', ') : '*';
+            return await this.execute(`SELECT ${columnsString} FROM ${tableName} ${where ? `WHERE ${where}` : ''} LIMIT ${top};`, whereArgs);
+        } catch (error) {
+            const columnsString = columns != '*' ? columns.join(', ') : '*';
+            console.log(`SELECT ${columnsString} FROM ${tableName} ${where ? `WHERE ${where}` : ''} LIMIT ${top};`);
+        }
+    }
+
+    async execute(query: string, args?: any[]): Promise<QueryResult> {
+        try {
+            return await this.db.executeAsync(query, args);
+        } catch (error) {
+            console.error(error);
+            return { rowsAffected: 0, } as QueryResult;
+        }
+
     }
 }
 

@@ -1178,10 +1178,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@dr.pogodin/react-native-fs@^2.27.0":
-  version "2.27.0"
-  resolved "https://registry.yarnpkg.com/@dr.pogodin/react-native-fs/-/react-native-fs-2.27.0.tgz#2545a3414b24282aa3b311b97f7e5f9a238916f3"
-  integrity sha512-1wxXI0Y1LCfUhl5S1p3HxLVvOAS4ooc83KF5uc5gIfgk24JeSYyHbeKDpSwJrZhN5uFtsC+MZG3Gyq8nBV5QFQ==
+"@dr.pogodin/react-native-fs@^2.27.1":
+  version "2.27.1"
+  resolved "https://registry.yarnpkg.com/@dr.pogodin/react-native-fs/-/react-native-fs-2.27.1.tgz#34b93518823563199d5d2f290ad7e6dd7dbab2cf"
+  integrity sha512-gQwqZ/LC9ki1lqXKwfEzJ4n5td96F7ArOj4LbHjhsi4nrN2a/YI2gtuzEs6I/6c7G//qQeTroh/sZ0HEHrgN2Q==
   dependencies:
     buffer "^6.0.3"
     http-status-codes "^2.3.0"
@@ -1746,7 +1746,7 @@
     prop-types "^15.8.1"
     yargs "^17.7.2"
 
-"@react-native-vector-icons/fontawesome6@^6.5.2-alpha.17":
+"@react-native-vector-icons/fontawesome6@^6.5.2-alpha.18":
   version "6.5.2-alpha.18"
   resolved "https://registry.yarnpkg.com/@react-native-vector-icons/fontawesome6/-/fontawesome6-6.5.2-alpha.18.tgz#601369633c932daca2ecb58cea58d2bc545aa4b9"
   integrity sha512-o568SuIVn+KtOBAIci8OcQA8v1fLUrOxDc8C5N7qfrqGoOXQ5RhEk+7GA7uT096pR87EL2MiOc2pC0+nb3inAw==
@@ -5826,6 +5826,16 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-native-clean-project@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-clean-project/-/react-native-clean-project-4.0.3.tgz#7ea174d2cb789e0c1d24defbeba561fcbf1beb9e"
+  integrity sha512-tWNhac5R4BetY7sZSRgaWUDSMpT207nJRuUwMZInmYJR3HucMZGIIUaiDH/pbFxXSDq4GMj4P7FnHxGLDobJ8w==
+
+react-native-device-info@^11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-11.1.0.tgz#7db5c4e5a179dce761efac155a493aa0956a40ab"
+  integrity sha512-hzXJSObJdezEz0hF7MAJ3tGeoesuQWenXXt9mrQR9Mjb8kXpZ09rqSsZ/quNpJdZpQ3rYiFa3/0GFG5KNn9PBg==
 
 react-native-quick-sqlite@^8.1.0:
   version "8.1.0"

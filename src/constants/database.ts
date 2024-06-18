@@ -1,4 +1,18 @@
 export const DATABASE = {
+    TABLES_HISTORY: {// tabela de histórico de versões(não remover)
+        'ID': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'DATE': 'DATETIME DEFAULT CURRENT_TIMESTAMP',
+        'VERSION': 'VARCHAR(20) NOT NULL',
+        'TABLES': 'TEXT NOT NULL'
+    },
+    TBL_AUDITORIA: {
+        'ID': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'CDUSUARIO': 'INT',
+        'NMTABELA': 'VARCHAR(50)',
+        'DSACAO': 'VARCHAR(200)',
+        'DTAUDITORIA': 'DATETIME DEFAULT CURRENT_TIMESTAMP',
+        'DSOBSERVACAO': 'TEXT'
+    },
     TBL_USUARIO: {
         'DSNOME': 'VARCHAR(50)',
         'NMIDADE': 'INT',
@@ -31,10 +45,10 @@ export const DATABASE = {
     TBL_VENDA_PAGAMENTO: {
         'CDVENDA': 'INT',
         'DTPAGAMENTO': 'DATE',
-        'VLPAGAMENTO': 'DECIMAL(10,2)'
+        'VLPAGAMENTO': 'DECIMAL(10,2)',
+        'DSPAGAMENTO': 'VARCHAR(50)',
     },
     TBL_PAGAMENTO: {
         'DSPAGAMENTO': 'VARCHAR(50)',
-        'DSCOR': 'VARCHAR(50)'
     }
 }
