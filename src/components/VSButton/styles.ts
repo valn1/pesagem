@@ -10,7 +10,7 @@ export const StyledButton = styled.TouchableOpacity<VSButtonProps>`
     align-items: center;
     gap: 20px;
     ${({ bordered, theme }) => bordered ? `border: 1px solid ${theme.colors.text};` : ''}
-    ${({ filled }) => filled ? 'background-color: #007bff;' : ''}
+    ${({ filled, theme }) => filled ? `background-color:${theme.colors.primary};` : ''}
     ${({ quiet }) => quiet ? 'background-color: transparent;' : ''}
     ${({ disabled }) => disabled ? 'opacity: 0.5;' : ''}
 `;

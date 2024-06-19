@@ -13,4 +13,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 android/.gradle/
-android/app/build/
+android/app/build/generated/res/
+android/app/build/generated/source/
+android/app/build/intermediates/
+android/app/build/kotlin/
+android/app/build/outputs/
+android/app/build/tmp/

@@ -11,8 +11,18 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+// @dr.pogodin/react-native-fs
+import com.drpogodin.reactnativefs.ReactNativeFsPackage;
 // @react-native-vector-icons/common
 import com.reactnativevectoricons.common.VectorIconsPackage;
+// react-native-device-info
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+// react-native-quick-sqlite
+import com.reactnativequicksqlite.SequelPackage;
+// react-native-safe-area-context
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
+// react-native-screens
+import com.swmansion.rnscreens.RNScreensPackage;
 
 public class PackageList {
   private Application application;
@@ -58,7 +68,12 @@ public class PackageList {
   public ArrayList<ReactPackage> getPackages() {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
-      new VectorIconsPackage()
+      new ReactNativeFsPackage(),
+      new VectorIconsPackage(),
+      new RNDeviceInfo(),
+      new SequelPackage(),
+      new SafeAreaContextPackage(),
+      new RNScreensPackage()
     ));
   }
 }

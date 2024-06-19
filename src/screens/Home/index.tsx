@@ -7,8 +7,13 @@ import { VSScreen } from "../../components/VSScreen";
 import { VSCard } from "../../components/VSCard";
 import { Col, Row } from "./styles";
 import { db } from "../../helpers/database";
+import { StaticScreenProps } from "@react-navigation/native";
 
-export const Home: React.FC = () => {
+type HomeProps = {
+    username?: string;
+};
+
+export const Home: React.FC<StaticScreenProps<HomeProps>> = () => {
     const { theme, toggleTheme } = useTheme();
 
     return (

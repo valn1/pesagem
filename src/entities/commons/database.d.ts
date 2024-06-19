@@ -18,6 +18,8 @@ export type TableColumns<Table extends TableName> = {
     [Column in keyof typeof DATABASE[Table]]?: string | number | boolean | null;
 }
 
+export type TableRows<Table extends TableName> = TableColumns<Table>[];
+
 export type TableColumn<Table extends TableName> = keyof typeof DATABASE[Table];
 
 export type Tables = Record<TableName, Record<TableColumns<TableName>, string>>

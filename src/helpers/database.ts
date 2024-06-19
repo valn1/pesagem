@@ -1,5 +1,5 @@
 import { QuickSQLiteConnection, open, QueryResult } from 'react-native-quick-sqlite'
-import type { Column, TableColumn, TableColumns, TableName, Tables } from '../entities/commons/database'
+import type { Column, TableColumn, TableColumns, TableName, TableRows, Tables } from '../entities/commons/database'
 import { DATABASE } from '../constants/database';
 import { getReadableVersion } from 'react-native-device-info';
 import { makeSnapshot } from './fileSystem';
@@ -36,17 +36,17 @@ export class Database {
         })
     }
 
-    async checkTableExists(tableName: TableName) {
+    async checkTableExists(tableName: TableName): Promise<boolean> {
         const result = await this.execute(`SELECT name FROM sqlite_master WHERE type='table' AND name='${tableName}';`);
         return !!result.rows?.length;
     }
 
-    async getColumns(tableName: TableName) {
+    async getColumns(tableName: TableName): Promise<string[]> {
         const result = await this.execute(`PRAGMA table_info(${tableName});`);
-        return result.rows?._array.map((row: any) => row.name);
+        return result.rows?._array.map((row: any) => row.name) || [];
     }
 
-    async getTables() {
+    async getTables(): Promise<string[]> {
         const result = await this.execute(`SELECT name FROM sqlite_master WHERE type='table';`);
         return result.rows?._array.map((row: any) => row.name) || [];
     }
@@ -60,18 +60,20 @@ export class Database {
     async createTable(tableName: TableName, columns: Column[]) {
         if (await this.checkTableExists(tableName)) {
             const tableColumns = await this.getColumns(tableName);
-            const newColumns: Column[] = columns.filter(column => !tableColumns?.includes(column.name));
-            const removedColumns: Column[] = tableColumns?.filter(column => !columns.find(col => col.name === column)) as Column[];
+            const newColumns = columns.filter(column => !tableColumns?.includes(column.name));
+            const removedColumns = tableColumns?.filter(column => !columns.find(col => col.name === column));
 
             if (!removedColumns.length && !newColumns.length) {
                 return { rowsAffected: 0 } as QueryResult;
             } else {
-                if (newColumns.length) await this.execute(`ALTER TABLE ${tableName} ADD COLUMN ${newColumns.map(c => `${c.name} ${c.type}`).join(', ')};`);
-                if (removedColumns.length) await this.execute(`ALTER TABLE ${tableName} DROP COLUMN ${removedColumns.map(col => col.name).join(', ')};`);
+                if (newColumns.length)
+                    await this.execute(`ALTER TABLE ${tableName} ADD COLUMN ${newColumns.map(c => `${c.name} ${c.type}`).join(', ')};`);
+                if (removedColumns.length)
+                    await this.execute(`ALTER TABLE ${tableName} DROP COLUMN ${removedColumns.join(', ')};`);
             }
         }
         const columnsString = columns.map(column => `${column.name} ${column.type}`).join(', ')
-        return await this.execute(`CREATE TABLE IF NOT EXISTS ${tableName} (${columnsString});`)
+        return this.execute(`CREATE TABLE IF NOT EXISTS ${tableName} (${columnsString});`)
     }
 
 
@@ -85,7 +87,7 @@ export class Database {
         const columns = Object.keys(values).join(', ');
         const valuesString = columns.replace(/[^,]+/g, '?');
         const valuesArray: any[] = Object.keys(values).map(key => values[key as keyof TableColumns<TableName>]);
-        return await this.execute(`INSERT INTO ${tableName} (${columns}) VALUES (${valuesString});`, valuesArray);
+        return this.execute(`INSERT INTO ${tableName} (${columns}) VALUES (${valuesString});`, valuesArray);
     }
 
     /**
@@ -100,11 +102,12 @@ export class Database {
      * ```
      * [1, 1]
      * ```
-     * @returns retorna um {@link QueryResult}.
+     * @returns retorna os dados em formato {@link TableRows}.
      */
-    async select(tableName: TableName, columns: string[] | '*', where?: string, whereArgs?: any[]) {
+    async select(tableName: TableName, columns: string[] | '*', where?: string, whereArgs?: any[]): Promise<TableRows<TableName>> {
         const columnsString = columns != '*' ? columns.join(', ') : '*';
-        return await this.execute(`SELECT ${columnsString} FROM ${tableName} ${where ? `WHERE ${where}` : ''};`, whereArgs);
+        const data = await this.execute(`SELECT ${columnsString} FROM ${tableName} ${where ? `WHERE ${where}` : ''};`, whereArgs);
+        return data.rows?._array || [] as TableRows<TableName>;
     }
 
     /**
@@ -125,7 +128,7 @@ export class Database {
      */
     async update(tableName: TableName, columns: string[], values: any[], where: string, whereArgs: any[]) {
         const cols = columns.map(col => `${col} = ?`).join(', ');
-        return await this.execute(`UPDATE ${tableName} SET ${cols} WHERE ${where};`, [...values, ...whereArgs]);
+        return this.execute(`UPDATE ${tableName} SET ${cols} WHERE ${where};`, [...values, ...whereArgs]);
     }
 
     /**
@@ -142,7 +145,7 @@ export class Database {
      * @returns retorna um {@link QueryResult}.
      */
     async delete(tableName: TableName, where: string, whereArgs: any[]) {
-        return await this.execute(`DELETE FROM ${tableName} WHERE ${where};`, whereArgs);
+        return this.execute(`DELETE FROM ${tableName} WHERE ${where};`, whereArgs);
     }
 
     /**
@@ -151,27 +154,17 @@ export class Database {
      * @returns retorna um {@link QueryResult}.
      */
     async dropTable(tableName: TableName) {
-        return await this.execute(`DROP TABLE ${tableName};`);
+        return this.execute(`DROP TABLE ${tableName};`);
     }
 
-    async selectTop(tableName: TableName, columns: string[] | '*', top: number, where?: string, whereArgs?: any[]) {
-        try {
-            const columnsString = columns != '*' ? columns.join(', ') : '*';
-            return await this.execute(`SELECT ${columnsString} FROM ${tableName} ${where ? `WHERE ${where}` : ''} LIMIT ${top};`, whereArgs);
-        } catch (error) {
-            const columnsString = columns != '*' ? columns.join(', ') : '*';
-            console.log(`SELECT ${columnsString} FROM ${tableName} ${where ? `WHERE ${where}` : ''} LIMIT ${top};`);
-        }
+    async selectTop(tableName: TableName, columns: string[] | '*', top: number, where?: string, whereArgs?: any[]): Promise<TableRows<TableName>> {
+        const columnsString = columns != '*' ? columns.join(', ') : '*';
+        const data = await this.execute(`SELECT ${columnsString} FROM ${tableName} ${where ? `WHERE ${where}` : ''} LIMIT ${top};`, whereArgs);
+        return data.rows?._array || [] as TableRows<TableName>;
     }
 
     async execute(query: string, args?: any[]): Promise<QueryResult> {
-        try {
-            return await this.db.executeAsync(query, args);
-        } catch (error) {
-            console.error(error);
-            return { rowsAffected: 0, } as QueryResult;
-        }
-
+        return this.db.executeAsync(query, args);
     }
 }
 
