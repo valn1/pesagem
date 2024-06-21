@@ -1,54 +1,23 @@
 export const DATABASE = {
     TABLES_HISTORY: {// tabela de histórico de versões(não remover)
-        'ID': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'DATE': 'DATETIME DEFAULT CURRENT_TIMESTAMP',
-        'VERSION': 'VARCHAR(20) NOT NULL',
-        'TABLES': 'TEXT NOT NULL'
+        'CD_ID': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'DT_DATE': 'DATETIME DEFAULT CURRENT_TIMESTAMP',
+        'DS_VERSION': 'VARCHAR(20) NOT NULL',
+        'TX_TABLES': 'TEXT NOT NULL'
     },
-    TBL_AUDITORIA: {
-        'ID': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'CDUSUARIO': 'INT',
-        'NMTABELA': 'VARCHAR(50)',
-        'DSACAO': 'VARCHAR(200)',
-        'DTAUDITORIA': 'DATETIME DEFAULT CURRENT_TIMESTAMP',
-        'DSOBSERVACAO': 'TEXT'
+    TBL_AUDITORIAS: {// tabela de auditoria  (não remover)
+        'CD_ID': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'CD_USUARIO': 'INT',
+        'NR_TABELA': 'VARCHAR(50)',
+        'DS_ACAO': 'VARCHAR(200)',
+        'DT_AUDITORIA': 'DATETIME DEFAULT CURRENT_TIMESTAMP',
+        'DS_OBSERVACAO': 'TEXT'
     },
-    TBL_USUARIO: {
-        'DSNOME': 'VARCHAR(50)',
-        'NMIDADE': 'INT',
-        'DSEMAIL': 'VARCHAR(50)'
+    TBL_BALANCAS: {
+        'CD_ID': 'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'DS_TYPE': 'ENUM("tcp", "bluetooth")',
+        'DS_HOST': 'VARCHAR(50)',
+        'NR_PORT': 'INT',
+        'NM_NOME': 'VARCHAR(50)',
     },
-    TBL_PRODUTO: {
-        'DSNOME': 'VARCHAR(50)',
-        'NMVALOR': 'DECIMAL(10,2)',
-        'DSDESCRICAO': 'TEXT'
-    },
-    TBL_CATEGORIA: {
-        'DSCATEGORIA': 'VARCHAR(50)'
-    },
-    TBL_PRODUTO_CATEGORIA: {
-        'CDPRODUTO': 'INT',
-        'CDCATEGORIA': 'INT'
-    },
-    TBL_VENDA: {
-        'CDUSUARIO': 'INT',
-        'DTVENCTO': 'DATE',
-        'DTREALIZADA': 'DATE',
-        'VLVENDA': 'DECIMAL(10,2)',
-        'VLDESCONTO': 'DECIMAL(10,2)',
-    },
-    TBL_VENDA_PRODUTO: {
-        'CDVENDA': 'INT',
-        'CDPRODUTO': 'INT',
-        'QTDE': 'INT'
-    },
-    TBL_VENDA_PAGAMENTO: {
-        'CDVENDA': 'INT',
-        'DTPAGAMENTO': 'DATE',
-        'VLPAGAMENTO': 'DECIMAL(10,2)',
-        'DSPAGAMENTO': 'VARCHAR(50)',
-    },
-    TBL_PAGAMENTO: {
-        'DSPAGAMENTO': 'VARCHAR(50)',
-    }
 }

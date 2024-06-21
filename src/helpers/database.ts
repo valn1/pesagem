@@ -21,8 +21,8 @@ export class Database {
 
     private async registerSnapshot() {
         const tables = JSON.stringify(this.Tables);
-        const result: TableRows<'TABLES_HISTORY'> = await this.selectTop('TABLES_HISTORY', ['TABLES'], 1, 'ID != 0 ORDER BY ID DESC');
-        const oldTables = result[0].TABLES as string;
+        const result: TableRows<'TABLES_HISTORY'> = await this.selectTop('TABLES_HISTORY', ['TX_TABLES'], 1, 'ID != 0 ORDER BY ID DESC');
+        const oldTables = result[0].TX_TABLES as string;
         if (oldTables?.length !== tables.length || oldTables !== tables) {
             await this.insert('TABLES_HISTORY', { VERSION: getReadableVersion(), TABLES: tables } as TableColumns<'TABLES_HISTORY'>);
             makeSnapshot();
