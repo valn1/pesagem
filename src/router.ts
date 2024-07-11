@@ -15,7 +15,6 @@ const RootTabs = createBottomTabNavigator({
 });
 
 const RootStack = createNativeStackNavigator({
-    initialRouteName: 'Home',
     screenOptions: {
         headerShown: false,
     },

@@ -20,13 +20,19 @@ export class Database {
     }
 
     private async registerSnapshot() {
-        const tables = JSON.stringify(this.Tables);
-        const result: TableRows<'TABLES_HISTORY'> = await this.selectTop('TABLES_HISTORY', ['TX_TABLES'], 1, 'ID != 0 ORDER BY ID DESC');
-        const oldTables = result[0].TX_TABLES as string;
-        if (oldTables?.length !== tables.length || oldTables !== tables) {
-            await this.insert('TABLES_HISTORY', { VERSION: getReadableVersion(), TABLES: tables } as TableColumns<'TABLES_HISTORY'>);
-            makeSnapshot();
-        }
+        this.checkTableExists('TABLES_HISTORY').then(async exists => {
+            const cols = await this.getColumns('TABLES_HISTORY')
+            if (!exists || !cols.includes('TX_TABLES')) return Promise.resolve();
+            console.log('asdasd');
+            
+            const tables = JSON.stringify(this.Tables);
+            const result: TableRows<'TABLES_HISTORY'> = await this.selectTop('TABLES_HISTORY', ['TX_TABLES'], 1, 'CD_ID != 0 ORDER BY CD_ID DESC');
+            const oldTables = result[0]?.TX_TABLES as string;
+            if (oldTables?.length !== tables.length || oldTables !== tables) {
+                await this.insert('TABLES_HISTORY', { DS_VERSION: getReadableVersion(), TX_TABLES: tables } as TableColumns<'TABLES_HISTORY'>);
+                makeSnapshot();
+            }
+        }).catch(console.error);
     }
 
     private async createTables() {
@@ -164,7 +170,15 @@ export class Database {
     }
 
     async execute(query: string, args?: any[]): Promise<QueryResult> {
-        return this.db.executeAsync(query, args);
+        try {
+            const response = await this.db.executeAsync(query, args)
+            return response;
+        } catch (error) {
+            console.log('error', error);
+            console.log('sql', query);
+            
+            return { rowsAffected:0 };
+        }
     }
 }
 

@@ -23,6 +23,8 @@ import com.reactnativequicksqlite.SequelPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-tcp-socket
+import com.asterinet.react.tcpsocket.TcpSocketPackage;
 
 public class PackageList {
   private Application application;
@@ -73,7 +75,8 @@ public class PackageList {
       new RNDeviceInfo(),
       new SequelPackage(),
       new SafeAreaContextPackage(),
-      new RNScreensPackage()
+      new RNScreensPackage(),
+      new TcpSocketPackage()
     ));
   }
 }

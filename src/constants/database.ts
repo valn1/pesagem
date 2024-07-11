@@ -15,7 +15,7 @@ export const DATABASE = {
     },
     TBL_BALANCAS: {
         'CD_ID': 'INTEGER PRIMARY KEY AUTOINCREMENT',
-        'DS_TYPE': 'ENUM("tcp", "bluetooth")',
+        'DS_TYPE': 'CHECK(DS_TYPE IN ("tcp", "bluetooth"))',
         'DS_HOST': 'VARCHAR(50)',
         'NR_PORT': 'INT',
         'NM_NOME': 'VARCHAR(50)',
