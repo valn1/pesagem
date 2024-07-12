@@ -1,12 +1,23 @@
 class RequestManager {
-    private token: string = '';
-    private headers = {
+    private _token: string = '';
+    private HEADERS = {
+        'Client-Type': 'mobilepesagem',
+        'Api-Version': 'v1',
+        'App-Version': '0.0.1',
+        'Device-OS': 'Vision Galaxy Tab A8',
+        'Device-Version': '14',
+        'UUID': '0da77d03a7bf38f8',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-    }
-    private url: string = '';
+    };
+    public url: string = 'http://187.45.121.132:8090';
 
-    constructor() {
+    set token(token: string) {
+        this._token = token;
+        this.HEADERS['Authorization'] = `Bearer ${token}`;
+    }
+    
+    get token() {
+        return '';
     }
 
     async get(url: string, headers: any = {}) {
@@ -26,3 +37,5 @@ class RequestManager {
     }
 
 }
+
+export const requestManager = new RequestManager();

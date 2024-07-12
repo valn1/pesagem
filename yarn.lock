@@ -5942,6 +5942,13 @@ react-native-device-info@^11.1.0:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-11.1.0.tgz#7db5c4e5a179dce761efac155a493aa0956a40ab"
   integrity sha512-hzXJSObJdezEz0hF7MAJ3tGeoesuQWenXXt9mrQR9Mjb8kXpZ09rqSsZ/quNpJdZpQ3rYiFa3/0GFG5KNn9PBg==
 
+react-native-quick-md5@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-quick-md5/-/react-native-quick-md5-3.0.6.tgz#f059b7d6907d898d31164709ffd6557fcd981d21"
+  integrity sha512-CEQ8hbdj1Kjv3CL5Acuuwra4HvFJvTRRCzscCxWLZk5j8e8PkbgxwoKnS0+nOJJ2kKmjZEPBfDmO+NsxoWSDIg==
+  dependencies:
+    spark-md5 "^3.0.2"
+
 react-native-quick-sqlite@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/react-native-quick-sqlite/-/react-native-quick-sqlite-8.1.0.tgz#befccdbbbb3c87d9a9d16094ab4f509a5a93c3d6"
@@ -6486,6 +6493,11 @@ source-map@^0.7.3:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.7.4.tgz#a9bbe705c9d8846f4e08ff6765acf0f1b0898656"
   integrity sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==
+
+spark-md5@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.2.tgz#7952c4a30784347abcee73268e473b9c0167e3fc"
+  integrity sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==
 
 split-on-first@^1.0.0:
   version "1.1.0"

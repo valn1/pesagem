@@ -7,6 +7,7 @@ const PlaceholderScreen: React.FC<StaticScreenProps<{ teste?: string }>> = () =>
 
 const RootTabs = createBottomTabNavigator({
     if: () => true,
+    initialRouteName: 'Home',
     screens: {
         Lista: PlaceholderScreen,
         Home,

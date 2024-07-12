@@ -17,6 +17,8 @@ import com.drpogodin.reactnativefs.ReactNativeFsPackage;
 import com.reactnativevectoricons.common.VectorIconsPackage;
 // react-native-device-info
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
+// react-native-quick-md5
+import com.reactnativequickmd5.QuickMd5Package;
 // react-native-quick-sqlite
 import com.reactnativequicksqlite.SequelPackage;
 // react-native-safe-area-context
@@ -73,6 +75,7 @@ public class PackageList {
       new ReactNativeFsPackage(),
       new VectorIconsPackage(),
       new RNDeviceInfo(),
+      new QuickMd5Package(),
       new SequelPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),

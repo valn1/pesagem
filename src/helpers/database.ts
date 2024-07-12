@@ -22,9 +22,7 @@ export class Database {
     private async registerSnapshot() {
         this.checkTableExists('TABLES_HISTORY').then(async exists => {
             const cols = await this.getColumns('TABLES_HISTORY')
-            if (!exists || !cols.includes('TX_TABLES')) return Promise.resolve();
-            console.log('asdasd');
-            
+            if (!exists || !cols.includes('TX_TABLES')) return Promise.resolve();            
             const tables = JSON.stringify(this.Tables);
             const result: TableRows<'TABLES_HISTORY'> = await this.selectTop('TABLES_HISTORY', ['TX_TABLES'], 1, 'CD_ID != 0 ORDER BY CD_ID DESC');
             const oldTables = result[0]?.TX_TABLES as string;
@@ -170,15 +168,7 @@ export class Database {
     }
 
     async execute(query: string, args?: any[]): Promise<QueryResult> {
-        try {
-            const response = await this.db.executeAsync(query, args)
-            return response;
-        } catch (error) {
-            console.log('error', error);
-            console.log('sql', query);
-            
-            return { rowsAffected:0 };
-        }
+        return this.db.executeAsync(query, args);
     }
 }
 
