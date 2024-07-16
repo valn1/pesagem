@@ -22,4 +22,4 @@ export type TableRows<Table extends TableName> = TableColumns<Table>[];
 
 export type TableColumn<Table extends TableName> = keyof typeof DATABASE[Table];
 
-export type Tables = Record<TableName, Record<TableColumns<TableName>, string>>
+export type Tables = typeof DATABASE

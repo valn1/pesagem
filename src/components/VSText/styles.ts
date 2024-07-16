@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { VSTextProps } from '../../entities/componentEntities/VSTextInterfaces';
+import { VSTextProps } from '../../entities/componentEntities/VSText';
 
 export const CustomText = styled.Text<VSTextProps>`
     font-size: 16px;

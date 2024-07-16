@@ -1,3 +1,4 @@
+import React from "react";
 import { Image } from "react-native";
 import VSText from "../../components/VSText";
 import VSButton from "../../components/VSButton";
@@ -6,7 +7,6 @@ import { useTheme } from "../../hooks/theme";
 import { VSScreen } from "../../components/VSScreen";
 import { VSCard } from "../../components/VSCard";
 import { Col, Row } from "./styles";
-import { db } from "../../helpers/database";
 import { StaticScreenProps } from "@react-navigation/native";
 
 type HomeProps = {
@@ -33,7 +33,7 @@ export const Home: React.FC<StaticScreenProps<HomeProps>> = () => {
             <VSButton title='disabled' onPress={() => { }} disabled filled />
             <VSButton onPress={() => { }} filled iconProps={{ name: 'baby' }} />
             <VSButton title='icon rtl' onPress={() => { }} rtl filled iconProps={{ name: 'bowl-rice' }} />
-            <VSButton onPress={() => db.insert('TBL_PRODUTO', [{ column: 'DSNOME', value: 'asdas' }, { column: "teste", value: "eeee" }])}>
+            <VSButton onPress={() => {}}>
                 <VSText underline size={20} color='blue'>hyperlink</VSText>
             </VSButton>
             <VSCard bordered quiet>
@@ -55,7 +55,7 @@ export const Home: React.FC<StaticScreenProps<HomeProps>> = () => {
                     <Row>
                         <VSCard quiet>
                             <VSText size={20}>card quiet</VSText>
-                            <Image source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }} style={{ width: 5000, height: 5000 }} />
+                            <Image source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }} style={{ width: 500, height: 200 }} />
                         </VSCard>
                     </Row>
                 </Col>

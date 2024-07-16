@@ -11,7 +11,7 @@ export class Database {
 
     constructor(tableName = 'pesagem', database = DATABASE) {
         this.db = open({ name: tableName + '.db' });
-        this.Tables = database as Tables;
+        this.Tables = database;
     }
 
     init() {
@@ -76,7 +76,14 @@ export class Database {
                     await this.execute(`ALTER TABLE ${tableName} DROP COLUMN ${removedColumns.join(', ')};`);
             }
         }
-        const columnsString = columns.map(column => `${column.name} ${column.type}`).join(', ')
+        const FKs = columns.filter(column => column.type.includes('FOREIGN KEY')).map(column => {
+            const [_, ref] = column.type.split('FOREIGN KEY')[1].split('REFERENCES').map(str => str.trim());
+            return `FOREIGN KEY (${column.name}) REFERENCES ${ref}`;
+        })
+        let columnsString = columns.map(column => `${column.name} ${column.type.split('FOREIGN KEY')[0]}`).join(', ')
+        if (FKs.length) {
+            columnsString += ', ' + FKs.join(', ');
+        }
         return this.execute(`CREATE TABLE IF NOT EXISTS ${tableName} (${columnsString});`)
     }
 
@@ -167,8 +174,21 @@ export class Database {
         return data.rows?._array || [] as TableRows<TableName>;
     }
 
+    async selectFirst(tableName: TableName, columns: string[] | '*', where?: string, whereArgs?: any[]): Promise<TableColumns<TableName>> {
+        return (await this.selectTop(tableName, columns, 1, where, whereArgs))?.[0] || {} as TableColumns<TableName>;
+    }
+
     async execute(query: string, args?: any[]): Promise<QueryResult> {
-        return this.db.executeAsync(query, args);
+        // try {//debug
+        //     const data = await this.db.executeAsync(query, args);
+        //     return data as QueryResult
+        // } catch (error) {
+        //     console.error('Database error:', error);
+        //     console.log('sql:', query);
+        //     return { rows: { }, rowsAffected: 0 } as QueryResult;
+        // }
+        
+        return this.db.executeAsync(query, args)
     }
 }
 

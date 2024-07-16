@@ -2,11 +2,14 @@ import { StaticParamList, StaticScreenProps, createStaticNavigation } from "@rea
 import { Home } from "./screens/Home";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Login } from "./screens/Login";
 
 const PlaceholderScreen: React.FC<StaticScreenProps<{ teste?: string }>> = () => null;
 
 const RootTabs = createBottomTabNavigator({
-    if: () => true,
+    screenOptions: {
+        headerShown: false,
+    },
     initialRouteName: 'Home',
     screens: {
         Lista: PlaceholderScreen,
@@ -19,25 +22,27 @@ const RootStack = createNativeStackNavigator({
     screenOptions: {
         headerShown: false,
     },
+    initialRouteName: 'Login',
     screens: {
-        login: {
-            if: () => false,
-            screen: PlaceholderScreen
+        Login: {
+            screen: Login
         },
-        RootTabs
+        RootTabs: {
+            screen: RootTabs
+        }
     }
 });
 
 
 type RootStackParamList = StaticParamList<typeof RootStack>;
 
-type RootTabsParamList = StaticParamList<typeof RootTabs>;
+// type RootTabsParamList = StaticParamList<typeof RootTabs>;
 
-type NavigationParamsList = Omit<RootStackParamList, 'RootTabs'> & RootTabsParamList;
+// type NavigationParamsList = Omit<RootStackParamList, 'RootTabs'> & RootTabsParamList;
 
 declare global {
     namespace ReactNavigation {
-        interface RootParamList extends NavigationParamsList { }
+        interface RootParamList extends RootStackParamList { }
     }
 }
 

@@ -13,11 +13,11 @@ class RequestManager {
 
     set token(token: string) {
         this._token = token;
-        this.HEADERS['Authorization'] = `Bearer ${token}`;
+        this.HEADERS['Authorization'] = token?`Bearer ${token}`:'';
     }
     
     get token() {
-        return '';
+        return this._token;
     }
 
     async get(url: string, headers: any = {}) {

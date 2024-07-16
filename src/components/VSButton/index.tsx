@@ -1,5 +1,5 @@
 import React from 'react';
-import { VSButtonProps } from '../../entities/componentEntities/VSButtonInterfaces';
+import { VSButtonProps } from '../../entities/componentEntities/VSButton';
 import { StyledButton } from './styles';
 import VSText from '../VSText';
 import VSIcon from '../VSIcon';

@@ -1,79 +1,65 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Bem-vindo ao Projeto VS Pesagem
 
-# Getting Started
+## KISS(Keep It Simple, Stupid)
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+Esse projeto deve sempre se manter ágil e simples.
 
-## Step 1: Start the Metro Server
+- Mantenha as abstrações a no máximo dois níveis.
+- Crie helpers para evitar repetição de código e para manter os componentes legíveis.
+- Faça uso dos snippets, eles vão te poupar muito tempo.
+- Evite fazer um banco de dados confuso, sempre pense "será que eu preciso fazer uma tabela nova ou uma coluna já resolve?".
+- Procure desenvolver pensando no futuro e no impacto de alguma mudança.
+- O app é para o usuário, mas o projeto é para os devs então, documente sempre que achar necessário.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Estrutura do Projeto
 
-To start Metro, run the following command from the _root_ of your React Native project:
+A estrutura do projeto VS Pesagem segue a seguinte organização:
 
-```bash
-# using npm
-npm start
-
-# OR using Yarn
-yarn start
+```
+├── src/                    # Pasta principal do código fonte
+│   ├── components/         # Componentes reutilizáveis
+│   ├── entities/           # Interfaces e tipos do projeto
+│   ├── screens/            # Telas do aplicativo
+│   ├── helpers/            # Helpers para manter o código nos componentes e telas mais organizado e limpo
+│   ├── hooks/              # Hooks e contextos para serem usados dentro da estrutura do app
+│   └── router.tsx          # Arquivo de rotas de navegação
+└── App.tsx                 # Arquivo principal de inicialização do aplicativo
 ```
 
-## Step 2: Start your Application
+## Padrões de Nomenclatura
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+Para manter a consistência e legibilidade do código, adotamos os seguintes padrões de nomenclatura:
 
-### For Android
+- **components**: Cada componente **VSComponent** leva um index.tsx e um styles.ts, possivelmente um helper.ts e outros arquivos que caibam ali
+- **entities**: Separadas em **commons** com nomes simples terminados em .d.ts e **componentEntities** com o nome do componente **VSComponent** terminado em .d.ts
+- **helpers**: Nome simples com extensão .ts
+- **hooks**: Nome simples com extensão .tsx
+- **screens**: Estruturadas em diretórios com o nome da tela capitalizado, contendo um index.tsx, styles.ts e possivelmente um helper.ts
 
-```bash
-# using npm
-npm run android
+## Snippets Personalizados
 
-# OR using Yarn
-yarn android
-```
+Ao longo do desenvolvimento do projeto, foram criados alguns snippets personalizados para agilizar a escrita de código.
 
-### For iOS
+- mkcomponent: cria um componente padrão;
+- mkhook: cria um hook com context padrão;
+- mkscreen: cria uma tela padrão;
+- exsty: cria e exporta um estilo padrão;
+- extype: cria e exporta um tipo padrão;
 
-```bash
-# using npm
-npm run ios
+## Deixe o lugar melhor do que estava quando você chegou
 
-# OR using Yarn
-yarn ios
-```
+Esse projeto foi criado como um exemplo a ser seguido de um projeto que cumpre e supera os requisitos(em ordem de prioridade) de:
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+- manutenibilidade: o projeto deve ser de fácil compreensão e manutenção, com código bem estruturado e documentado.
+- escalabilidade: o projeto deve ser capaz de lidar com o crescimento e evolução, permitindo a adição de novas funcionalidades sem grandes impactos no código existente.
+- performance: o projeto deve ser otimizado para garantir uma boa experiência de uso, com tempos de resposta rápidos e consumo eficiente de recursos.
+- usabilidade: o projeto deve ser intuitivo e fácil de usar, proporcionando uma boa experiência para os usuários.
+- documentação: o projeto deve ser bem documentado, incluindo informações sobre sua arquitetura, funcionalidades, configuração e uso.
+- segurança: o projeto deve adotar práticas e medidas de segurança para proteger os dados e garantir a integridade do sistema.
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+Se essas orientações forem seguidas, não teremos problemas para criar novas funcionalidades nem para consertar falhas que eventualmente vão aparecer. Os commits de feat terão poucos arquivos alterados, novatos vão entender o projeto sem dificuldades, independete do nível de experiência, atualizações serão frequentes, rápidas e descomplicadas.
 
-## Step 3: Modifying your App
+Dito isso, divirta-se codando, sinta-se livre para implementar coisas novas e melhorar a estrutura do projeto. Não fuja dos desafios.
+_Atreva-se a aprender_
 
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+//Valdeli Vaz - jul. de 2024

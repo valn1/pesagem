@@ -5,6 +5,10 @@ export interface Theme {
         background: string;
         text: string;
         card: string;
+        info: string;
+        success: string;
+        warning: string;
+        danger: string;
     };
     themeName: 'light' | 'dark';
 }

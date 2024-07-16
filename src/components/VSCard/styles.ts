@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { VSCardProps } from "../../entities/componentEntities/VSCardInterfaces";
+import { VSCardProps } from "../../entities/componentEntities/VSCard";
 
 export const StyledCard = styled.View<VSCardProps>`
     border-radius: 12px;
