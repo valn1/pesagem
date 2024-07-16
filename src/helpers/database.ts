@@ -14,9 +14,13 @@ export class Database {
         this.Tables = database;
     }
 
-    init() {
-        this.registerSnapshot()
-            .then(() => this.createTables()).catch(console.error);
+    async init() {
+        try {
+            await this.registerSnapshot();
+            await this.createTables();
+        } catch (error) {
+            console.error('Database error:', error);
+        }
     }
 
     private async registerSnapshot() {

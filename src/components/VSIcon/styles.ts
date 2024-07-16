@@ -1,8 +1,8 @@
 import styled from "styled-components/native";
-import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
+import IonIcon from '@react-native-vector-icons/ionicons';
 import { VSIconProps } from "../../entities/componentEntities/VSIcon";
 
 
 
-export const StyledIcon = styled(FontAwesome6) <VSIconProps>`
+export const StyledIcon = styled(IonIcon) <VSIconProps>`
 `;

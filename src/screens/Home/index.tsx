@@ -31,9 +31,9 @@ export const Home: React.FC<StaticScreenProps<HomeProps>> = () => {
             <VSButton title='quiet' onPress={() => { }} quiet />
             <VSButton title='disabled' onPress={() => { }} disabled />
             <VSButton title='disabled' onPress={() => { }} disabled filled />
-            <VSButton onPress={() => { }} filled iconProps={{ name: 'baby' }} />
-            <VSButton title='icon rtl' onPress={() => { }} rtl filled iconProps={{ name: 'bowl-rice' }} />
-            <VSButton onPress={() => {}}>
+            <VSButton onPress={() => { }} filled iconProps={{ name: 'caret-down-circle-sharp' }} />
+            <VSButton title='icon rtl' onPress={() => { }} rtl filled iconProps={{ name: 'sunny' }} />
+            <VSButton onPress={() => { }}>
                 <VSText underline size={20} color='blue'>hyperlink</VSText>
             </VSButton>
             <VSCard bordered quiet>
@@ -61,12 +61,12 @@ export const Home: React.FC<StaticScreenProps<HomeProps>> = () => {
                 </Col>
                 <VSButton title='button' onPress={() => { }} filled />
             </VSCard>
-            <VSIcon name='biohazard' color='red' size={50} />
-            <VSIcon name='circle-radiation' color='yellow' size={50} />
-            <VSIcon name='person-circle-xmark' color='red' size={50} />
-            <VSIcon name='person-military-rifle' color='red' size={50} />
-            <VSIcon name='bone' color='blue' size={50} />
-            <VSIcon name='atom' color='red' size={20} />
+            <VSIcon name='add' color='red' size={50} />
+            <VSIcon name='accessibility-sharp' color='yellow' size={50} />
+            <VSIcon name='battery-full' color='red' size={50} />
+            <VSIcon name='water-sharp' color='red' size={50} />
+            <VSIcon name='airplane' color='blue' size={50} />
+            <VSIcon name='trophy' color='red' size={20} />
         </VSScreen>
     );
 }

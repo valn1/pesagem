@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import com.drpogodin.reactnativefs.ReactNativeFsPackage;
 // @react-native-vector-icons/common
 import com.reactnativevectoricons.common.VectorIconsPackage;
+// react-native-bootsplash
+import com.zoontek.rnbootsplash.RNBootSplashPackage;
 // react-native-device-info
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 // react-native-quick-md5
@@ -74,6 +76,7 @@ public class PackageList {
       new MainReactPackage(mConfig),
       new ReactNativeFsPackage(),
       new VectorIconsPackage(),
+      new RNBootSplashPackage(),
       new RNDeviceInfo(),
       new QuickMd5Package(),
       new SequelPackage(),

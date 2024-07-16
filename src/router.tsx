@@ -1,12 +1,16 @@
+import React from "react";
 import { StaticParamList, StaticScreenProps, createStaticNavigation } from "@react-navigation/native";
 import { Home } from "./screens/Home";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Login } from "./screens/Login";
+import VSTab from "./components/VSTabBar";
 
 const PlaceholderScreen: React.FC<StaticScreenProps<{ teste?: string }>> = () => null;
 
 const RootTabs = createBottomTabNavigator({
+    backBehavior: 'history',
+    tabBar: (props) => <VSTab {...props} />,
     screenOptions: {
         headerShown: false,
     },
