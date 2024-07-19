@@ -39,4 +39,9 @@ export const DATABASE = {
         'DS_VALOR':           'TEXT',
         'FK_CD_CONFIGURACAO': 'INTEGER FOREIGN KEY REFERENCES TBL_CONFIGURACOES(CD_ID)',
     },
+    TBL_SERVIDOR: {
+        'CD_ID':              'INTEGER PRIMARY KEY AUTOINCREMENT',
+        'DS_HOST':            'VARCHAR(50)',
+        'DS_ROUTE':           'VARCHAR(50)',
+    },
 }

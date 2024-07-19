@@ -1,7 +1,7 @@
 import { stringMd5 } from "react-native-quick-md5";
 import { requestManager } from "./requestManager";
 
-const validateResponse = async (response: Response) => {
+const validateResponse = async (response: Response) => {    
     if (!response.ok) {
         throw new Error(response.statusText)
     }
@@ -20,7 +20,7 @@ const post = async (url: string, body: any) => {
 export const API = {
     '/login' : (username: string, password: string) => {
         const md5Senha = stringMd5(password)
-        return post('/login', {username, md5Senha})
+        return post('/login', {username, md5Senha,autenticacao:"MobileResiduos",})
     },
     '/logout' : async (username:string) => {
         return post('/logout', {username})

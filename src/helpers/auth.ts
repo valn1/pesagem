@@ -17,6 +17,8 @@ const login = async (username:string, password:string) => {
     const md5Senha = stringMd5(password)
 
     API['/login'](username, md5Senha).then(async data => {
+        console.log(data);
+        
         const token = data.token;
         if (token) {
             requestManager.token = token;
